@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const { getUserInfo } = require("../service/user.service");
-
 const {
   userFormateError,
   userAlreadyExited,
@@ -9,6 +8,7 @@ const {
   invalidPassword,
   userLoginError,
 } = require("../const/err.type");
+const { decrypt } = require("../utils/crypt");
 
 const userValidator = async (ctx, next) => {
   const { username, password } = ctx.request.body;
@@ -40,10 +40,18 @@ const verifyUser = async (ctx, next) => {
 
 const cryptPassword = async (ctx, next) => {
   const { password } = ctx.request.body;
-  var salt = bcrypt.genSaltSync(10);
-  var hash = bcrypt.hashSync(password, salt);
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(password, salt);
 
   ctx.request.body.password = hash;
+
+  await next();
+};
+
+const decryptPassword = async (ctx, next) => {
+  const { password } = ctx.request.body;
+
+  ctx.request.body.password = decrypt(password);
 
   await next();
 };
@@ -63,7 +71,8 @@ const verifyLogin = async (ctx, next) => {
 
     // 2. 密码是否匹配(不匹配: 报错)
     if (!bcrypt.compareSync(password, res.password.trim())) {
-      // if (!res.password.trim() === password) {
+      console.log(password);
+      console.log(res.password);
       ctx.app.emit("error", invalidPassword, ctx);
       return;
     }
@@ -79,5 +88,6 @@ module.exports = {
   userValidator,
   verifyUser,
   cryptPassword,
+  decryptPassword,
   verifyLogin,
 };
