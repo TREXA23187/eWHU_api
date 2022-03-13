@@ -14,11 +14,34 @@ const User = seq.define("ewhu_user", {
     allowNull: false,
     comment: "密码",
   },
-  is_admin: {
+  role: {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 0,
-    comment: "是否为管理员, 0(默认普通用户)",
+    comment: "0: 普通用户, 1: 管理员, 2: 超级管理员",
+  },
+  school_id: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    comment: "学号/工号",
+  },
+  phone_number: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+    comment: "手机号",
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+    comment: "邮箱",
+  },
+  remark: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    comment: "备注",
   },
 });
 

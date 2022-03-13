@@ -24,7 +24,7 @@ const auth = async (ctx, next) => {
 };
 
 const hadAdminPermission = async (ctx, next) => {
-  const { is_admin } = ctx.state.user;
+  const { role } = ctx.state.user;
 };
 
 module.exports = {

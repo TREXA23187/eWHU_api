@@ -3,6 +3,9 @@ const {
   register,
   login,
   changePassword,
+  getUserList,
+  changeInfo,
+  deleteUser,
 } = require("../controller/user.controller");
 const { auth } = require("../middleware/auth.middleware");
 const {
@@ -20,19 +23,32 @@ router.post(
   "/register",
   userValidator,
   verifyUser,
-  decryptPassword,
+  // decryptPassword,
   cryptPassword,
   register
 );
 
 // 登录接口
-router.post("/login", decryptPassword, userValidator, verifyLogin, login);
+router.post("/login", userValidator, decryptPassword, verifyLogin, login);
 
 // 修改密码
-router.patch("/", auth, decryptPassword, cryptPassword, changePassword);
+router.post(
+  "/patch/password",
+  auth,
+  decryptPassword,
+  cryptPassword,
+  changePassword
+);
+
+// 修改信息
+router.post("/patch/info", auth, changeInfo);
 
 router.get("/", (ctx, next) => {
   ctx.body = "test";
 });
+
+router.get("/list", getUserList);
+
+router.post("/delete", auth, deleteUser);
 
 module.exports = router;

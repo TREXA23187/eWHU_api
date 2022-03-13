@@ -1,40 +1,76 @@
 const User = require("../model/user.model");
 
 class UserService {
-  async createUser(username, password) {
-    const res = await User.create({ username, password });
+  async createUser(userInfo) {
+    const res = await User.create(userInfo);
+    console.log("-=-=-=-=-=-==", userInfo);
 
     return res.dataValues;
   }
 
-  async getUserInfo({ id, username, password, is_admin }) {
+  async getUserInfo({
+    id,
+    username,
+    password,
+    role,
+    school_id,
+    phone_number,
+    email,
+  }) {
     const whereOpt = {};
+
     id && Object.assign(whereOpt, { id });
     username && Object.assign(whereOpt, { username });
     password && Object.assign(whereOpt, { password });
-    is_admin && Object.assign(whereOpt, { is_admin });
+    role && Object.assign(whereOpt, { role });
+    school_id && Object.assign(whereOpt, { school_id });
+    phone_number && Object.assign(whereOpt, { phone_number });
+    email && Object.assign(whereOpt, { email });
 
-    const res = await User.findOne({
-      attributes: ["id", "username", "password", "is_admin"],
-      where: whereOpt,
-    });
+    let res;
 
-    return res ? res.dataValues : null;
+    if (JSON.stringify(whereOpt) == "{}") {
+      res = await User.findAll();
+      return res || null;
+    } else {
+      res = await User.findOne({
+        attributes: ["id", "username", "password", "role"],
+        where: whereOpt,
+      });
+      return res ? res.dataValues : null;
+    }
   }
 
-  async updateById({ id, username, password, is_admin }) {
+  async updateById({
+    id,
+    username,
+    password,
+    role,
+    school_id,
+    phone_number,
+    email,
+  }) {
     const whereOpt = { id };
     const newUser = {};
 
     username && Object.assign(newUser, { username });
     password && Object.assign(newUser, { password });
-    is_admin && Object.assign(newUser, { is_admin });
-
-    console.log(newUser);
+    role && Object.assign(newUser, { role });
+    school_id && Object.assign(newUser, { school_id });
+    phone_number && Object.assign(newUser, { phone_number });
+    email && Object.assign(newUser, { email });
 
     const res = await User.update(newUser, { where: whereOpt });
 
     return res[0] > 0 ? true : false;
+  }
+
+  async deleteById(id) {
+    const res = await User.destroy({
+      where: { id },
+    });
+
+    return Boolean(res);
   }
 }
 
