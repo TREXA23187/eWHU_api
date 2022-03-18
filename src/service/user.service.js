@@ -3,8 +3,6 @@ const User = require("../model/user.model");
 class UserService {
   async createUser(userInfo) {
     const res = await User.create(userInfo);
-    console.log("-=-=-=-=-=-==", userInfo);
-
     return res.dataValues;
   }
 
@@ -34,7 +32,7 @@ class UserService {
       return res || null;
     } else {
       res = await User.findOne({
-        attributes: ["id", "username", "password", "role"],
+        attributes: ["id", "username", "password", "role", "school_id"],
         where: whereOpt,
       });
       return res ? res.dataValues : null;

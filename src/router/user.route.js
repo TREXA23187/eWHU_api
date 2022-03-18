@@ -47,7 +47,7 @@ router.get("/", (ctx, next) => {
   ctx.body = "test";
 });
 
-router.get("/list", getUserList);
+router.get("/list", auth, getUserList);
 
 router.post("/delete", auth, deleteUser);
 
