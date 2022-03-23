@@ -29,7 +29,7 @@ router.post(
 );
 
 // 登录接口
-router.post("/login", userValidator, decryptPassword, verifyLogin, login);
+router.post("/login", userValidator, verifyLogin, login);
 
 // 修改密码
 router.post(

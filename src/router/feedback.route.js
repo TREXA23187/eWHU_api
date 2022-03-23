@@ -12,6 +12,7 @@ const router = new Router({ prefix: "/feedback" });
 router.post("/", sendFeedback);
 
 router.post("/img", (ctx, next) => {
+  console.log(ctx.request.body);
   ctx.body = {
     code: 0,
     message: "图片上传成功",
