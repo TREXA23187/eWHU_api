@@ -16,6 +16,6 @@ const AppGroup = seq.define("ewhu_app_group", {
   },
 });
 
-// AppGroup.sync({ force: true });
+AppGroup.sync({ force: true });
 
 module.exports = AppGroup;

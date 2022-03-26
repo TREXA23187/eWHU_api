@@ -9,7 +9,6 @@ class ApplicationService {
 
   async getApplicationInfo({ id, name, group_id }) {
     const whereOpt = {};
-    const filter = [];
     id && Object.assign(whereOpt, { id });
     name && Object.assign(whereOpt, { name_zh: { [Op.like]: `%${name}%` } });
     name && Object.assign(whereOpt, { name_en: { [Op.like]: `%${name}%` } });
@@ -36,7 +35,6 @@ class ApplicationService {
     const res = await Application.destroy({
       where: { id },
     });
-    console.log(12312312312);
     return Boolean(res);
   }
 }

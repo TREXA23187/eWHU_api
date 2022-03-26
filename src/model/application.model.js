@@ -41,6 +41,6 @@ const Application = seq.define("ewhu_application", {
   },
 });
 
-// Application.sync({ force: true });
+Application.sync({ force: true });
 
 module.exports = Application;

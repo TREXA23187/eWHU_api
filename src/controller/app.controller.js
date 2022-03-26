@@ -8,7 +8,7 @@ const {
   deleteById,
 } = require("../service/application.service");
 
-class AppGroupController {
+class AppController {
   async addAppGroup(ctx, next) {
     //   console.log(ctx.request)
     const { name_zh, name_en } = ctx.request.body;
@@ -88,4 +88,4 @@ class AppGroupController {
   }
 }
 
-module.exports = new AppGroupController();
+module.exports = new AppController();

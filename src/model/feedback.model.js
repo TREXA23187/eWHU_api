@@ -46,6 +46,6 @@ const Feedback = seq.define("ewhu_feedback", {
   },
 });
 
-// Feedback.sync({ force: true });
+Feedback.sync({ force: true });
 
 module.exports = Feedback;
